@@ -1,0 +1,17 @@
+#######################################
+# Syntax Coloring Map for Library "eRCaGuy_analogReadXXbit"
+#######################################
+
+#######################################
+# Datatypes & Classes (KEYWORD1)
+#######################################
+eRCaGuy_analogReadXXbit KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+analogReadXXbit			KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################

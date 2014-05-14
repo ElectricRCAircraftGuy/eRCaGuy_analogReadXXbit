@@ -1,5 +1,6 @@
 /*
 eRCaGuy_analogReadXXbit
+Library webpage: http://electricrcaircraftguy.blogspot.com/2014/05/using-arduino-unos-built-in-16-bit-adc.html
 -This is a library to utilize oversampling, by the 10-bit Arduino ADC (Analog to Digital Converter), in
  order to obtain much higher resolutions.  Resolutions from 10-bit to 21-bit are now possible, for reading the ADCs on
  an Arduino!  The tradeoff is speed.  The higher the resolution, the longer it takes to get an ADC reading.

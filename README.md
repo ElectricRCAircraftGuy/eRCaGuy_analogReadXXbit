@@ -1,6 +1,7 @@
 Readme last updated: 13 May 2014
 
 eRCaGuy_analogReadXXbit
+Library webpage: http://electricrcaircraftguy.blogspot.com/2014/05/using-arduino-unos-built-in-16-bit-adc.html
 
 **Instructions**
 Download the code by clicking "Download ZIP" to the right.  Extract the files, and install the library to your Arduino IDE. Run the examples and view the output in your Arduino IDE's Serial Monitor.  The examples read from analog pin A0, so I recommend putting a potentiometer wiper on that pin.

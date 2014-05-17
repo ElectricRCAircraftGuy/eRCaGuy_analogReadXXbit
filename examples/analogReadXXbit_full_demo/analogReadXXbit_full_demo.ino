@@ -62,9 +62,10 @@ We need to read an analog voltage on A0, so place a pot with the outer legs goin
 eRCaGuy_analogReadXXbit adc;
 
 //Global constants
-const unsigned int num_samples = 10;
+const unsigned int num_samples = 10;  //change this to 1 to take only a single reading; leave it >1 to return an avg. of this # of readings
 const uint8_t pin = A0; //analogRead pin
 //constants required to determine the voltage at the pin
+//BE SURE YOU USE THE CORRECT ONE OF THESE WHEN CALCULATING THE VOLTAGE FROM A READING! Take notes of how these constants are used below.
 const float MAX_READING_10_bit = 1023.0;
 const float MAX_READING_11_bit = 2046.0;
 const float MAX_READING_12_bit = 4092.0;

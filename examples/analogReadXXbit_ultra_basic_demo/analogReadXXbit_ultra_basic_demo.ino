@@ -63,6 +63,7 @@ eRCaGuy_analogReadXXbit adc;
 
 //Global constants
 //constants required to determine the voltage at the pin
+//BE SURE YOU USE THE CORRECT ONE OF THESE WHEN CALCULATING THE VOLTAGE FROM A READING! Take notes of how these constants are used below.
 const float MAX_READING_10_bit = 1023.0;
 const float MAX_READING_11_bit = 2046.0;
 const float MAX_READING_12_bit = 4092.0;
@@ -88,8 +89,10 @@ void loop()
 {
   //local variables
   int pin = A0; //analogRead pin
-  int bits_of_precision = 16; //must be a value between 10 and 21
-  int num_samples = 1;
+  int bits_of_precision = 16; //must be a value between 10 and 21; IF YOU CHANGE THIS, BE SURE TO CHANGE THE LINE BELOW WHICH PRINTS OUT THE VOLTAGE TOO!
+                              //Ex: if you want 14-bits of precision, change "bits_of_precision" parameter to 14, and replace the "MAX_READING_16_bit" constant, 
+                              //below, with the "MAX_READING_14_bit" constant instead.
+  int num_samples = 1; //leave this at 1 to take only a single reading; make it >1 to return an avg. of this # of readings
   
   //take a reading on pin A0
   float analog_reading = adc.analogReadXXbit(pin,bits_of_precision,num_samples); //get the avg. of [num_samples] 16-bit readings 

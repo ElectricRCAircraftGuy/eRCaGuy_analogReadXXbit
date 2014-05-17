@@ -63,7 +63,8 @@ eRCaGuy_analogReadXXbit adc;
 
 //Global constants
 const uint8_t pin = A0; //analogRead pin
-//constants required to determine the voltage at the pin
+//constants required to determine the voltage at the pin; 
+//BE SURE YOU USE THE CORRECT ONE OF THESE WHEN CALCULATING THE VOLTAGE FROM A READING! Take notes of how these constants are used below.
 const float MAX_READING_10_bit = 1023.0;
 const float MAX_READING_11_bit = 2046.0;
 const float MAX_READING_12_bit = 4092.0;

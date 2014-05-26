@@ -14,11 +14,12 @@ Library webpage: http://electricrcaircraftguy.blogspot.com/2014/05/using-arduino
  http://electricrcaircraftguy.blogspot.com/
  -My contact info is available by clicking the "Contact Me" tab at the top of my blog.
  Written: 7 May 2014
- Last Updated: 12 May 2014
+ Last Updated: 25 May 2014
  
  Version: 1.0 - first release
  
  History (newest on top):
+ 20140525 - added in integer rounding, instead of doing a pure bit-shift operation to get the oversampled value; see rounding notes at the very bottom of this file
  20140512 - first version created
 */
 
@@ -98,12 +99,15 @@ float eRCaGuy_analogReadXXbit::analogReadXXbit(uint8_t analogPin, uint8_t bits_o
 {
   //unsigned long oversample_num = round(pow(4.0,bits_of_precision-10.0)); //note: an alternate method of getting (4^n), or "pow(4,n)"
 																		   //is (1<<(2*n)), which is much faster, so I am using it instead
-  unsigned long oversample_num = 1<<(2*(bits_of_precision-10)); //best & fastest method to do 4 to a power
-  uint8_t rightShift = bits_of_precision - 10; //see AVR121 Application Note: http://www.atmel.com/images/doc8003.pdf
+  uint8_t n = bits_of_precision - 10; //"rightshift" value, AKA: "n"
+									  //see AVR121 Application Note: http://www.atmel.com/images/doc8003.pdf
+									  //Also see my table here: http://electricrcaircraftguy.blogspot.com/2014/05/using-arduino-unos-built-in-16-bit-adc.html
+  unsigned long oversample_num = 1<<(2*n); //4^n; best & fastest method to do 4 to a power (see my extensive notes in the paragraph above)
+  uint8_t divisor = 1<<n; //same thing as 2^n
   
   //////////////FOR DEBUGGING/////////////
   //Serial.println(oversample_num);
-  //Serial.println(rightShift);
+  //Serial.println(n);
   ////////////////////////////////////////
   
   //outer loop: get the number of samples to avg
@@ -116,13 +120,39 @@ float eRCaGuy_analogReadXXbit::analogReadXXbit(uint8_t analogPin, uint8_t bits_o
     {
       inner_sum += analogRead(analogPin); //take a 10-bit reading on the Arduino ADC
     }
-    unsigned int reading = inner_sum >> rightShift; //see AVR121 Application Note; this converts the analogRead into the higher-bit resolution reading
+    //Convert these many 10-bit samples to a single higher-resolution sample:
+	//Standard Method:
+	//unsigned int reading = inner_sum >> n; //See AVR121 Application Note
+	//Rounding Method (to nearest integer):
+	unsigned int reading = (inner_sum + (unsigned long)divisor/2UL) >> n; //See AVR121 Application Note; this converts the analogRead into the higher-bit resolution reading. Note, however, that I am also doing integer rounding. For rounding details, see my rounding notes in the paragraph below.  Also note that ((inner_sum + divisor/2) >> n) is the same thing as ((inner_sum + divisor/2)/divisor), where divisor = 2^n.
     reading_sum += reading;
   }
   float avg_reading = (float)reading_sum/(float)num_samples_to_avg;
   return avg_reading;
 }
 
+/*Integer math rounding notes:
+To do rounding with integers, during division, use the following formula:
+(dividend + divisor/2)/divisor.
 
+For example, instead of doing a/b, doing (a + b/2)/b will give you the integer value of a/b, rounded to the nearest whole integer.  This only works perfectly for even values of b.  If b is odd, the rounding is imperfect, since b/2 will not yield a whole number.  
 
+Don't believe me that this works?
+Consider the following examples:
+
+a = 1723; b = 16
+a/b = 107.6875 --> truncated to 107
+(a + b/2)/b = 108.1875 --> truncated to 108, which is the same thing as a/b rounded to the nearest whole integer
+
+a = 1720; b = 16
+a/b = 107.5 --> truncated to 107
+(a + b/2)/b = 108 exactly, which is the same thing as a/b rounded to the nearest whole integer
+
+a = 1719; b = 16
+a/b = 107.4375 --> truncated to 107
+(a + b/2)/b = 107.9375 --> truncated to 107, which is the same thing as a/b rounded to the nearest whole integer
+
+Why does this work?
+If you do the algebra, you will see that doing (a + b/2)/b is the same thing as doing a/b + 1/2, which will always force a value, when truncated, to truncate to the value that it otherwise would have rounded to.  So, this works perfectly!  The only problem is that 1/2 is not a valid integer (it truncates to 0), so you must instead do it in the order of (a + b/2)/b, in order to make it all work out!
+*/
 

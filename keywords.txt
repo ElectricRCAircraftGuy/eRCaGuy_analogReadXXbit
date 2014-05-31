@@ -1,16 +1,21 @@
 #######################################
 # Syntax Coloring Map for Library "eRCaGuy_analogReadXXbit"
+#
+# IMPORTANT: THERE CAN ONLY BE A *SINGLE TAB* (NOT A SPACE, NOT TWO TABS, ETC) after the 
+# Keyword and before the identifier (ex: KEYWORD2), in order for the Arduino 1.5.6-r2 IDE 
+# to properly do the syntax highlighting.
+# ~Gabriel Staples, 30 May 2014
 #######################################
 
 #######################################
 # Datatypes & Classes (KEYWORD1)
 #######################################
-eRCaGuy_analogReadXXbit KEYWORD1
+eRCaGuy_analogReadXXbit	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
-analogReadXXbit			KEYWORD2
+analogReadXXbit	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)

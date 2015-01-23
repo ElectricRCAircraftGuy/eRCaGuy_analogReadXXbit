@@ -137,8 +137,7 @@ To do rounding with integers, during division, use the following formula:
 
 For example, instead of doing a/b, doing (a + b/2)/b will give you the integer value of a/b, rounded to the nearest whole integer.  This only works perfectly for even values of b.  If b is odd, the rounding is imperfect, since b/2 will not yield a whole number.  
 
-Don't believe me that this works?
-Consider the following examples:
+Examples:
 
 a = 1723; b = 16
 a/b = 107.6875 --> truncated to 107

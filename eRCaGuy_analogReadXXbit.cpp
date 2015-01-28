@@ -1,6 +1,6 @@
 /*
 eRCaGuy_analogReadXXbit
-Written and Edited in Notepad++
+Written and Edited in Notepad++ (Tab settings: tab size 2, replace by space)
 Library webpage: http://electricrcaircraftguy.blogspot.com/2014/05/using-arduino-unos-built-in-16-bit-adc.html
  
 By Gabriel Staples
@@ -51,48 +51,48 @@ eRCaGuy_analogReadXXbit adc; //preinstantiation of object
 //define class constructor method
 eRCaGuy_analogReadXXbit::eRCaGuy_analogReadXXbit()
 {
-	updateADCSpeed(); //actually set the ADC speed via this private method
+  updateADCSpeed(); //actually set the ADC speed via this private method
 }
 
 void eRCaGuy_analogReadXXbit::updateADCSpeed()
 {
-	switch (_ADC_speed) 
-	{
-		//Note: in order to set the ADC clock speed, you must properly configure the 3 ADPS bits, per the datasheet pg. 255-256
+  switch (_ADC_speed) 
+  {
+    //Note: in order to set the ADC clock speed, you must properly configure the 3 ADPS bits, per the datasheet pg. 255-256
     case ADC_PRESCALER_128_CLOCK_125KHZ:
-			_ADCClockFreq = F_CPU/128; //calc ADC clock freq
-			ADCSRA |= _BV(ADPS2) | _BV(ADPS1) | _BV(ADPS0); //set all 3 ADPS bits (ADPS2,ADPS1,ADPS0) (111)
+      _ADCClockFreq = F_CPU/128; //calc ADC clock freq
+      ADCSRA |= _BV(ADPS2) | _BV(ADPS1) | _BV(ADPS0); //set all 3 ADPS bits (ADPS2,ADPS1,ADPS0) (111)
       break;
     case ADC_PRESCALER_64_CLOCK_250KHZ:
       _ADCClockFreq =  F_CPU/64;
-			clearADPSbits(); //clear all 3 ADPS bits
-			ADCSRA |= _BV(ADPS2) | _BV(ADPS1); //set the proper bits (110)
+      clearADPSbits(); //clear all 3 ADPS bits
+      ADCSRA |= _BV(ADPS2) | _BV(ADPS1); //set the proper bits (110)
       break;
     case ADC_PRESCALER_32_CLOCK_500KHZ:
-			_ADCClockFreq =  F_CPU/32;
-			clearADPSbits(); //clear all 3 ADPS bits
-			ADCSRA |= _BV(ADPS2) | _BV(ADPS0); //set the proper bits (101)
-			break;
-		case ADC_PRESCALER_16_CLOCK_1MHZ:
-			_ADCClockFreq =  F_CPU/16;
-			clearADPSbits(); //clear all 3 ADPS bits
-			ADCSRA |= _BV(ADPS2); //set the proper bits (100)
-			break;
-		case CAUTION_ADC_PRESCALER_8_CLOCK_2MHZ:
-			_ADCClockFreq =  F_CPU/8;
-			clearADPSbits(); //clear all 3 ADPS bits
-			ADCSRA |= _BV(ADPS1) | _BV(ADPS0); //set the proper bits (011)
-			break;
-		case CAUTION_ADC_PRESCALER_4_CLOCK_4MHZ:
-			_ADCClockFreq =  F_CPU/4;
-			clearADPSbits(); //clear all 3 ADPS bits
-			ADCSRA |= _BV(ADPS1); //set the proper bits (010)
-			break;
-		case CAUTION_ADC_PRESCALER_2_CLOCK_8MHZ:
-			_ADCClockFreq =  F_CPU/2;
-			clearADPSbits(); //clear all 3 ADPS bits
-			ADCSRA |= _BV(ADPS0); //set the proper bits (001)
-			break;
+      _ADCClockFreq =  F_CPU/32;
+      clearADPSbits(); //clear all 3 ADPS bits
+      ADCSRA |= _BV(ADPS2) | _BV(ADPS0); //set the proper bits (101)
+      break;
+    case ADC_PRESCALER_16_CLOCK_1MHZ:
+      _ADCClockFreq =  F_CPU/16;
+      clearADPSbits(); //clear all 3 ADPS bits
+      ADCSRA |= _BV(ADPS2); //set the proper bits (100)
+      break;
+    case CAUTION_ADC_PRESCALER_8_CLOCK_2MHZ:
+      _ADCClockFreq =  F_CPU/8;
+      clearADPSbits(); //clear all 3 ADPS bits
+      ADCSRA |= _BV(ADPS1) | _BV(ADPS0); //set the proper bits (011)
+      break;
+    case CAUTION_ADC_PRESCALER_4_CLOCK_4MHZ:
+      _ADCClockFreq =  F_CPU/4;
+      clearADPSbits(); //clear all 3 ADPS bits
+      ADCSRA |= _BV(ADPS1); //set the proper bits (010)
+      break;
+    case CAUTION_ADC_PRESCALER_2_CLOCK_8MHZ:
+      _ADCClockFreq =  F_CPU/2;
+      clearADPSbits(); //clear all 3 ADPS bits
+      ADCSRA |= _BV(ADPS0); //set the proper bits (001)
+      break;
   }
 }
 
@@ -132,19 +132,19 @@ Method 3) [I didn't even try it; no need since Method 2 works great]
 //is possible for the "inner_sum" variable to overflow.
 float eRCaGuy_analogReadXXbit::takeSamples(uint8_t analogPin)
 {
-	//unsigned long oversample_num = round(pow(4.0,bits_of_resolution-10.0)); //note: an alternate method of getting (4^n), or "pow(4,n)"
-																		   //is (1<<(2*n)), which is much faster, so I am using it instead
+  //unsigned long oversample_num = round(pow(4.0,bits_of_resolution-10.0)); //note: an alternate method of getting (4^n), or "pow(4,n)"
+                                                                            //is (1<<(2*n)), which is much faster, so I am using it instead
   uint8_t n = _bits_of_resolution - 10; //"rightshift" value, AKA: "n"
-									  //see AVR121 Application Note: http://www.atmel.com/images/doc8003.pdf
-									  //Also see my table here: http://electricrcaircraftguy.blogspot.com/2014/05/using-arduino-unos-built-in-16-bit-adc.html
+                                        //see AVR121 Application Note: http://www.atmel.com/images/doc8003.pdf
+                                        //Also see my table here: http://electricrcaircraftguy.blogspot.com/2014/05/using-arduino-unos-built-in-16-bit-adc.html
   unsigned long oversample_num = 1UL<<(2*n); //4^n; best & fastest method to do 4 to a power (see my extensive notes in the paragraph above)
-																						 //NB: be sure to use a 1UL value vs a 1byte value, or else the 1 will be shifted right off of the value, to the left, and you'll be left with oversample_num = 0 for any n>=8 (for some reason).
+                                             //NB: be sure to use a 1UL value vs a 1byte value, or else the 1 will be shifted right off of the value, to the left, and you'll be left with oversample_num = 0 for any n>=8 (for some reason).
   unsigned int divisor = 1<<n; //same thing as 2^n
   
   //////////////FOR DEBUGGING/////////////
-	Serial.print(F("n = ")); Serial.println(n);
-	Serial.print(F("oversample_num = ")); Serial.println(oversample_num);
-	Serial.print(F("divisor = ")); Serial.println(divisor);
+  Serial.print(F("n = ")); Serial.println(n);
+  Serial.print(F("oversample_num = ")); Serial.println(oversample_num);
+  Serial.print(F("divisor = ")); Serial.println(divisor);
   ////////////////////////////////////////
   
   //outer loop: get the number of samples to avg
@@ -156,13 +156,13 @@ float eRCaGuy_analogReadXXbit::takeSamples(uint8_t analogPin)
     for (unsigned long j=0; j<oversample_num; j++)
     {
       inner_sum += analogRead(analogPin); //take a 10-bit reading on the Arduino ADC
-				//NB: I JUST DISCOVERED THAT I CAN ***NOT*** RE-USE THE ARDUINO CORE FUNCTION NAME "analogRead()" AS PART OF MY LIBRARY!!! [IE: "eRCaGuy_analogReadXXbit::analogRead(...)" IS BAD!!!]. THE REASON IS BECAUSE IF I DO THIS, THE LINE ABOVE WILL RECURSIVELY CALL MY *LIBRARY'S* analogRead() FUNCTION RATHER THAN THE *CORE* ARDUINO analogRead() FUNCTION, THEREBY GETTING STUCK IN AN INFINITELY RECURSIVE LOOP AND CRASHING THE ARDUINO!!!
+        //NB: I JUST DISCOVERED THAT I CAN ***NOT*** RE-USE THE ARDUINO CORE FUNCTION NAME "analogRead()" AS PART OF MY LIBRARY!!! [IE: "eRCaGuy_analogReadXXbit::analogRead(...)" IS BAD!!!]. THE REASON IS BECAUSE IF I DO THIS, THE LINE ABOVE WILL RECURSIVELY CALL MY *LIBRARY'S* analogRead() FUNCTION RATHER THAN THE *CORE* ARDUINO analogRead() FUNCTION, THEREBY GETTING STUCK IN AN INFINITELY RECURSIVE LOOP AND CRASHING THE ARDUINO!!!
     }
     //Convert these many 10-bit samples to a single higher-resolution sample:
-		//Standard Method:
-		//unsigned int reading = inner_sum >> n; //See AVR121 Application Note
-		//Rounding Method (to nearest integer):
-		unsigned long reading = (inner_sum + (unsigned long)divisor/2UL) >> n; //See AVR121 Application Note; this converts the analogRead into the higher-bit resolution reading. Note, however, that I am also doing integer rounding. For rounding details, see my rounding notes in the paragraph below.  Also note that ((inner_sum + divisor/2) >> n) is the same thing as ((inner_sum + divisor/2)/divisor), where divisor = 2^n.
+    //Standard Method:
+    //unsigned int reading = inner_sum >> n; //See AVR121 Application Note
+    //Rounding Method (to nearest integer):
+    unsigned long reading = (inner_sum + (unsigned long)divisor/2UL) >> n; //See AVR121 Application Note; this converts the analogRead into the higher-bit resolution reading. Note, however, that I am also doing integer rounding. For rounding details, see my rounding notes in the paragraph below.  Also note that ((inner_sum + divisor/2) >> n) is the same thing as ((inner_sum + divisor/2)/divisor), where divisor = 2^n.
     reading_sum += reading;
   }
   float avg_reading = (float)reading_sum/(float)_num_samples_to_avg;
@@ -195,82 +195,81 @@ If you do the algebra, you will see that doing (a + b/2)/b is the same thing as 
 
 float eRCaGuy_analogReadXXbit::newAnalogRead(uint8_t analogPin, uint8_t bits_of_resolution, unsigned long num_samples_to_avg, ADC_prescaler_t ADC_speed)
 {
-	_bits_of_resolution = constrain(bits_of_resolution,10,21);
-	_num_samples_to_avg = num_samples_to_avg;
-	if (_ADC_speed != ADC_speed)
-	{
-		_ADC_speed = ADC_speed;
-		updateADCSpeed();
-	}
-	return takeSamples(analogPin);
+  _bits_of_resolution = constrain(bits_of_resolution,10,21);
+  _num_samples_to_avg = num_samples_to_avg;
+  if (_ADC_speed != ADC_speed)
+  {
+    _ADC_speed = ADC_speed;
+    updateADCSpeed();
+  }
+  return takeSamples(analogPin);
 }
 
 float eRCaGuy_analogReadXXbit::newAnalogRead(uint8_t analogPin, uint8_t bits_of_resolution, unsigned long num_samples_to_avg)
 {
-	_bits_of_resolution = constrain(bits_of_resolution,10,21);
-	_num_samples_to_avg = num_samples_to_avg;
-	return takeSamples(analogPin);
+  _bits_of_resolution = constrain(bits_of_resolution,10,21);
+  _num_samples_to_avg = num_samples_to_avg;
+  return takeSamples(analogPin);
 }
 
 float eRCaGuy_analogReadXXbit::newAnalogRead(uint8_t analogPin, uint8_t bits_of_resolution)
 {
-	_bits_of_resolution = constrain(bits_of_resolution,10,21);
-	return takeSamples(analogPin);
+  _bits_of_resolution = constrain(bits_of_resolution,10,21);
+  return takeSamples(analogPin);
 }
 
 float eRCaGuy_analogReadXXbit::newAnalogRead(uint8_t analogPin)
 {
-	return takeSamples(analogPin);
+  return takeSamples(analogPin);
 }
 
 //"set" functions
 
 void eRCaGuy_analogReadXXbit::setBitsOfResolution(uint8_t bits_of_resolution)
 {
-	_bits_of_resolution = constrain(bits_of_resolution,10,21);
+  _bits_of_resolution = constrain(bits_of_resolution,10,21);
 }
 
 void eRCaGuy_analogReadXXbit::setNumSamplesToAvg(unsigned long num_samples_to_avg)
 {
-	_num_samples_to_avg = num_samples_to_avg;
+  _num_samples_to_avg = num_samples_to_avg;
 }
 
 void eRCaGuy_analogReadXXbit::setADCSpeed(ADC_prescaler_t ADC_speed)
 {
-	if (_ADC_speed != ADC_speed)
-	{
-		_ADC_speed = ADC_speed;
-		updateADCSpeed();
-	}
+  if (_ADC_speed != ADC_speed)
+  {
+    _ADC_speed = ADC_speed;
+    updateADCSpeed();
+  }
 }
 
 //"get" functions
 
 uint8_t eRCaGuy_analogReadXXbit::getBitsOfResolution()
 {
-	return _bits_of_resolution;
+  return _bits_of_resolution;
 }
 
 unsigned long eRCaGuy_analogReadXXbit::getNumSamplesToAvg()
 {
-	return _num_samples_to_avg;
+  return _num_samples_to_avg;
 }
 
 uint8_t eRCaGuy_analogReadXXbit::getADCSpeedSetting()
 {
-	return (uint8_t)_ADC_speed;
+  return (uint8_t)_ADC_speed;
 }
 
 unsigned long eRCaGuy_analogReadXXbit::getADCClockFreq() //Hz
 {
-	return _ADCClockFreq;
+  return _ADCClockFreq;
 }
 
 unsigned long eRCaGuy_analogReadXXbit::getMaxPossibleReading()
 {
-	return 1023UL*(unsigned long)(1<<(_bits_of_resolution - 10)); //maxPossibleReading = 1023*2^n, where n is the *additional* bits of resolution, beyond 10-bits; ie: maxPossibleReading = 1023*2^(_bits_of_resolution-10)
+  return 1023UL*(unsigned long)(1<<(_bits_of_resolution - 10)); //maxPossibleReading = 1023*2^n, where n is the *additional* bits of resolution, beyond 10-bits; ie: maxPossibleReading = 1023*2^(_bits_of_resolution-10)
 }
 
-// eRCaGuy_analogReadXXbit adc; //preinstantiation of object
 
 

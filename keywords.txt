@@ -1,23 +1,42 @@
 #######################################
-# Syntax Coloring Map for Library "eRCaGuy_analogReadXXbit"
+# Syntax Coloring Map for Library "eRCaGuy_NewAnalogRead"
 #
 # IMPORTANT: THERE CAN ONLY BE A *SINGLE TAB* (NOT A SPACE, NOT TWO TABS, ETC) after the 
 # Keyword and before the identifier (ex: KEYWORD2), in order for the Arduino 1.5.6-r2 IDE 
-# to properly do the syntax highlighting.
-# ~Gabriel Staples, 30 May 2014
+# to properly do the syntax highlighting. Preferably, edit this file in regular Notepad, 
+# NOT Notepad++, in order to ensure tabs are done properly and not replaced with spaces.
+# ~Gabriel Staples, 30 May 2014 & 1 Feb 2015
 # http://electricrcaircraftguy.blogspot.com/
 #######################################
 
 #######################################
 # Datatypes & Classes (KEYWORD1)
 #######################################
-eRCaGuy_analogReadXXbit	KEYWORD1
+eRCaGuy_NewAnalogRead	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
-analogReadXXbit	KEYWORD2
+newAnalogRead	KEYWORD2
+setBitsOfResolution	KEYWORD2
+setNumSamplesToAvg	KEYWORD2
+setADCSpeed	KEYWORD2
+getBitsOfResolution	KEYWORD2
+getNumSamplesToAvg	KEYWORD2
+getADCSpeedSetting	KEYWORD2
+getADCClockFreq	KEYWORD2
+getMaxPossibleReading	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
 #######################################
+ADC_PRESCALER_128_CLOCK_125KHZ	LITERAL1
+ADC_DEFAULT	LITERAL1
+ADC_SLOW	LITERAL1
+ADC_PRESCALER_64_CLOCK_250KHZ	LITERAL1
+ADC_PRESCALER_32_CLOCK_500KHZ	LITERAL1
+ADC_PRESCALER_16_CLOCK_1MHZ	LITERAL1
+ADC_FAST	LITERAL1
+CAUTION_ADC_PRESCALER_8_CLOCK_2MHZ	LITERAL1
+CAUTION_ADC_PRESCALER_4_CLOCK_4MHZ	LITERAL1
+CAUTION_ADC_PRESCALER_2_CLOCK_8MHZ	LITERAL1

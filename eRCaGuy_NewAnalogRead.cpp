@@ -1,14 +1,16 @@
 /*
-eRCaGuy_analogReadXXbit
+eRCaGuy_NewAnalogRead (a replacement and continuation of eRCaGuy_analogReadXXbit)
 Written and Edited in Notepad++ (Tab settings: tab size 2, replace by space)
 Library webpage: http://electricrcaircraftguy.blogspot.com/2014/05/using-arduino-unos-built-in-16-bit-adc.html
  
 By Gabriel Staples
 http://electricrcaircraftguy.blogspot.com/
 -My contact info is available by clicking the "Contact Me" tab at the top of my blog.
- 
+
+eRCaGuy_NewAnalogRead.cpp file last updated: 11 Feb. 2015
+
 **********************************************************************************************
-***************SEE THE .H FILE FOR ADDITIONAL INFORMATION, VERSION HISTORY, ETC***************
+***************SEE THE .H FILE FOR ADDITIONAL INFORMATION, VERSION, HISTORY, ETC***************
 **********************************************************************************************
 */
 
@@ -21,7 +23,7 @@ http://electricrcaircraftguy.blogspot.com/
   License: GNU Lesser General Public License Version 3 (LGPLv3) - https://www.gnu.org/licenses/lgpl.html
   ------------------------------------------------------------------------------------------------
 
-  This file is part of eRCaGuy_analogReadXXbit.
+  This file is part of eRCaGuy_NewAnalogRead.
   
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU Lesser General Public License as published by
@@ -44,17 +46,22 @@ http://electricrcaircraftguy.blogspot.com/
  #include <WProgram.h>
 #endif
 
-#include "eRCaGuy_analogReadXXbit.h"
+#include "eRCaGuy_NewAnalogRead.h"
 
-eRCaGuy_analogReadXXbit adc; //preinstantiation of object
+eRCaGuy_NewAnalogRead adc; //preinstantiation of object
 
 //define class constructor method
-eRCaGuy_analogReadXXbit::eRCaGuy_analogReadXXbit()
+eRCaGuy_NewAnalogRead::eRCaGuy_NewAnalogRead()
 {
-  updateADCSpeed(); //actually set the ADC speed via this private method
+  //set defaults:
+  _bits_of_resolution = 12;
+  _num_samples_to_avg = 1;
+  ADC_prescaler_t _ADC_speed = ADC_FAST;
+    
+  updateADCSpeed(); //actually set the ADC speed to the above value via this private method
 }
 
-void eRCaGuy_analogReadXXbit::updateADCSpeed()
+void eRCaGuy_NewAnalogRead::updateADCSpeed()
 {
   switch (_ADC_speed) 
   {
@@ -130,7 +137,7 @@ Method 3) [I didn't even try it; no need since Method 2 works great]
 //generic function for 10-21 bit resolution analogReads
 //the max resolution is 21-bits, because at that point, the number of samples required for a single reading will be so high that it
 //is possible for the "inner_sum" variable to overflow.
-float eRCaGuy_analogReadXXbit::takeSamples(uint8_t analogPin)
+float eRCaGuy_NewAnalogRead::takeSamples(uint8_t analogPin)
 {
   //unsigned long oversample_num = round(pow(4.0,bits_of_resolution-10.0)); //note: an alternate method of getting (4^n), or "pow(4,n)"
                                                                             //is (1<<(2*n)), which is much faster, so I am using it instead
@@ -141,11 +148,11 @@ float eRCaGuy_analogReadXXbit::takeSamples(uint8_t analogPin)
                                              //NB: be sure to use a 1UL value vs a 1byte value, or else the 1 will be shifted right off of the value, to the left, and you'll be left with oversample_num = 0 for any n>=8 (for some reason).
   unsigned int divisor = 1<<n; //same thing as 2^n
   
-  //////////////FOR DEBUGGING/////////////
-  Serial.print(F("n = ")); Serial.println(n);
-  Serial.print(F("oversample_num = ")); Serial.println(oversample_num);
-  Serial.print(F("divisor = ")); Serial.println(divisor);
-  ////////////////////////////////////////
+  ////////////FOR DEBUGGING/////////////
+  // Serial.print(F("n = ")); Serial.println(n);
+  // Serial.print(F("oversample_num = ")); Serial.println(oversample_num);
+  // Serial.print(F("divisor = ")); Serial.println(divisor);
+  //////////////////////////////////////
   
   //outer loop: get the number of samples to avg
   unsigned long reading_sum = 0;
@@ -156,7 +163,7 @@ float eRCaGuy_analogReadXXbit::takeSamples(uint8_t analogPin)
     for (unsigned long j=0; j<oversample_num; j++)
     {
       inner_sum += analogRead(analogPin); //take a 10-bit reading on the Arduino ADC
-        //NB: I JUST DISCOVERED THAT I CAN ***NOT*** RE-USE THE ARDUINO CORE FUNCTION NAME "analogRead()" AS PART OF MY LIBRARY!!! [IE: "eRCaGuy_analogReadXXbit::analogRead(...)" IS BAD!!!]. THE REASON IS BECAUSE IF I DO THIS, THE LINE ABOVE WILL RECURSIVELY CALL MY *LIBRARY'S* analogRead() FUNCTION RATHER THAN THE *CORE* ARDUINO analogRead() FUNCTION, THEREBY GETTING STUCK IN AN INFINITELY RECURSIVE LOOP AND CRASHING THE ARDUINO!!!
+        //NB: I JUST DISCOVERED THAT I CAN ***NOT*** RE-USE THE ARDUINO CORE FUNCTION NAME "analogRead()" AS PART OF MY LIBRARY!!! [IE: "eRCaGuy_NewAnalogRead::analogRead(...)" IS BAD!!!]. THE REASON IS BECAUSE IF I DO THIS, THE LINE ABOVE WILL RECURSIVELY CALL MY *LIBRARY'S* analogRead() FUNCTION RATHER THAN THE *CORE* ARDUINO analogRead() FUNCTION, THEREBY GETTING STUCK IN AN INFINITELY RECURSIVE LOOP AND CRASHING THE ARDUINO!!!
     }
     //Convert these many 10-bit samples to a single higher-resolution sample:
     //Standard Method:
@@ -193,7 +200,7 @@ Why does this work?
 If you do the algebra, you will see that doing (a + b/2)/b is the same thing as doing a/b + 1/2, which will always force a value, when truncated, to truncate to the value that it otherwise would have rounded to.  So, this works perfectly!  The only problem is that 1/2 is not a valid integer (it truncates to 0), so you must instead do it in the order of (a + b/2)/b, in order to make it all work out!
 */
 
-float eRCaGuy_analogReadXXbit::newAnalogRead(uint8_t analogPin, uint8_t bits_of_resolution, unsigned long num_samples_to_avg, ADC_prescaler_t ADC_speed)
+float eRCaGuy_NewAnalogRead::newAnalogRead(uint8_t analogPin, uint8_t bits_of_resolution, unsigned long num_samples_to_avg, ADC_prescaler_t ADC_speed)
 {
   _bits_of_resolution = constrain(bits_of_resolution,10,21);
   _num_samples_to_avg = num_samples_to_avg;
@@ -205,37 +212,37 @@ float eRCaGuy_analogReadXXbit::newAnalogRead(uint8_t analogPin, uint8_t bits_of_
   return takeSamples(analogPin);
 }
 
-float eRCaGuy_analogReadXXbit::newAnalogRead(uint8_t analogPin, uint8_t bits_of_resolution, unsigned long num_samples_to_avg)
+float eRCaGuy_NewAnalogRead::newAnalogRead(uint8_t analogPin, uint8_t bits_of_resolution, unsigned long num_samples_to_avg)
 {
   _bits_of_resolution = constrain(bits_of_resolution,10,21);
   _num_samples_to_avg = num_samples_to_avg;
   return takeSamples(analogPin);
 }
 
-float eRCaGuy_analogReadXXbit::newAnalogRead(uint8_t analogPin, uint8_t bits_of_resolution)
+float eRCaGuy_NewAnalogRead::newAnalogRead(uint8_t analogPin, uint8_t bits_of_resolution)
 {
   _bits_of_resolution = constrain(bits_of_resolution,10,21);
   return takeSamples(analogPin);
 }
 
-float eRCaGuy_analogReadXXbit::newAnalogRead(uint8_t analogPin)
+float eRCaGuy_NewAnalogRead::newAnalogRead(uint8_t analogPin)
 {
   return takeSamples(analogPin);
 }
 
 //"set" functions
 
-void eRCaGuy_analogReadXXbit::setBitsOfResolution(uint8_t bits_of_resolution)
+void eRCaGuy_NewAnalogRead::setBitsOfResolution(uint8_t bits_of_resolution)
 {
   _bits_of_resolution = constrain(bits_of_resolution,10,21);
 }
 
-void eRCaGuy_analogReadXXbit::setNumSamplesToAvg(unsigned long num_samples_to_avg)
+void eRCaGuy_NewAnalogRead::setNumSamplesToAvg(unsigned long num_samples_to_avg)
 {
   _num_samples_to_avg = num_samples_to_avg;
 }
 
-void eRCaGuy_analogReadXXbit::setADCSpeed(ADC_prescaler_t ADC_speed)
+void eRCaGuy_NewAnalogRead::setADCSpeed(ADC_prescaler_t ADC_speed)
 {
   if (_ADC_speed != ADC_speed)
   {
@@ -246,27 +253,27 @@ void eRCaGuy_analogReadXXbit::setADCSpeed(ADC_prescaler_t ADC_speed)
 
 //"get" functions
 
-uint8_t eRCaGuy_analogReadXXbit::getBitsOfResolution()
+uint8_t eRCaGuy_NewAnalogRead::getBitsOfResolution()
 {
   return _bits_of_resolution;
 }
 
-unsigned long eRCaGuy_analogReadXXbit::getNumSamplesToAvg()
+unsigned long eRCaGuy_NewAnalogRead::getNumSamplesToAvg()
 {
   return _num_samples_to_avg;
 }
 
-uint8_t eRCaGuy_analogReadXXbit::getADCSpeedSetting()
+uint8_t eRCaGuy_NewAnalogRead::getADCSpeedSetting()
 {
   return (uint8_t)_ADC_speed;
 }
 
-unsigned long eRCaGuy_analogReadXXbit::getADCClockFreq() //Hz
+unsigned long eRCaGuy_NewAnalogRead::getADCClockFreq() //Hz
 {
   return _ADCClockFreq;
 }
 
-unsigned long eRCaGuy_analogReadXXbit::getMaxPossibleReading()
+unsigned long eRCaGuy_NewAnalogRead::getMaxPossibleReading()
 {
   return 1023UL*(unsigned long)(1<<(_bits_of_resolution - 10)); //maxPossibleReading = 1023*2^n, where n is the *additional* bits of resolution, beyond 10-bits; ie: maxPossibleReading = 1023*2^(_bits_of_resolution-10)
 }

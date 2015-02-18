@@ -88,7 +88,7 @@ void setup()
   printValues();
   
   //Configure the adc how you want it
-  adc.setADCSpeed(ADC_FAST);
+  adc.setADCSpeed(ADCSpeed);
   adc.setBitsOfResolution(bitsOfResolution);
   adc.setNumSamplesToAvg(numSamplesToAvg);
 

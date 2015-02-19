@@ -49,10 +49,10 @@ void setup()
   adc.setBitsOfResolution(12);
   
   //****************THIS ADC SPEED RESULTS IN ~390us PER 12-BIT ANALOG SAMPLE (~2565 Hz sample rate)****************
-//  adc.setADCSpeed(ADC_FAST); 
+  adc.setADCSpeed(ADC_FAST); 
   
   //****************THIS ADC SPEED RESULTS IN ~275us PER 12-BIT ANALOG SAMPLE (~3636 Hz sample rate)****************
-  adc.setADCSpeed(CAUTION_ADC_PRESCALER_8_CLOCK_2MHZ); //this ADC clock speed is 2x that of ADC_FAST, and should still produce good results too; 
+  //adc.setADCSpeed(CAUTION_ADC_PRESCALER_8_CLOCK_2MHZ); //this ADC clock speed is 2x that of ADC_FAST, and should still produce good results too; 
                                                        //give it a try, though it may reduce actual analog resolution a touch
 }
 

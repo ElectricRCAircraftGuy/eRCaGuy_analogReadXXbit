@@ -61,7 +61,7 @@ void loop()
   //local variables
   unsigned int readings[NUM_ANALOG_PINS]; //prepare array to receive 8 analog readings
   unsigned long times[NUM_ANALOG_PINS]; //units of 0.5us
-  float times_f[NUM_ANALOG_PINS]; //us; floating point times
+  // float times_f[NUM_ANALOG_PINS]; //us; floating point times
   
   //take readings as fast as possible
   byte i = 0;
@@ -79,22 +79,24 @@ void loop()
   for (byte pin=A0; pin<A0+NUM_ANALOG_PINS; pin++)
   {
     //zero-reference the times, so that each time value is an elapsed time since starting this data set
-    times_f[i] = (float)(times[i] - t_start)/2.0; //us; the "/2.0" is to convert from 0.5us units to us
+    // times_f[i] = (float)(times[i] - t_start)/2.0; //us; the "/2.0" is to convert from 0.5us units to us
+    times[i] = times[i] - t_start; //0.5us units
+    t_elapsed = (float)times[i]/2.0; //us
     //get time for just this one analog reading
     float dt; //us
     if (i>0)
     {
-      dt = times_f[i] - times_f[i-1]; //us
+      dt = (float)(times[i] - times[i-1])/2.0; //us
     }
     else //i==0
     {
-      dt = times_f[i]; //us
+      dt = (float)times[i]/2.0; //us
     }
     
     //print results
     Serial.print(F("pin = A")); Serial.print(pin-14); //subtract 14 since A0 is actually Arduino pin 14, but I want it to print out as "A0" instead of "14"
     Serial.print(F(", reading = ")); Serial.print(readings[i]); 
-    Serial.print(F(", t_elapsed(us) = ")); Serial.print(times_f[i]);
+    Serial.print(F(", t_elapsed(us) = ")); Serial.print(t_elapsed);
     Serial.print(F(", dt(us) = ")); Serial.print(dt);
     Serial.print(F(", ")); Serial.print(adc.getBitsOfResolution()); Serial.print(F("-bit sample rate(Hz) = ")); Serial.println(1000000/dt);
     i++;

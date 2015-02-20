@@ -3,7 +3,7 @@ Readme Written: 13 May 2014
 Readme Updated: 15 Feb 2015  
 
 **Library:** eRCaGuy_NewAnalogRead (a replacement and continuation of eRCaGuy_analogReadXXbit)  
-**Version:** 2.1 alpha
+**Version:** 2.1 alpha  
 -For additional version history and information, refer to the top of the .h file.  
 Library webpage:   http://electricrcaircraftguy.blogspot.com/2014/05/using-arduino-unos-built-in-16-bit-adc.html  
 

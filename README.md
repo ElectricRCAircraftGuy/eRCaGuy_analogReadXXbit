@@ -1,3 +1,5 @@
+**FOR THE LATEST CODE, CHANGE THE "branch" DROPDOWN MENU ABOVE TO "Version_2", AND DOWNLOAD MY Version_2 CODE INSTEAD! ~GS 19 Feb. 2015**
+
 Readme last updated: 13 May 2014
 
 eRCaGuy_analogReadXXbit

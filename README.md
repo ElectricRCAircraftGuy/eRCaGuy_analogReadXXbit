@@ -2,6 +2,9 @@ eRCaGuy_NewAnalogRead Readme
 Readme Written: 13 May 2014  
 Readme Updated: 15 Feb 2015  
 
+##License: GPLv3 or later (ignore whatever the files say; it is GPLv3)  
+-I'll correct the license in the files later.
+
 **Library:** eRCaGuy_NewAnalogRead (a replacement and continuation of eRCaGuy_analogReadXXbit)  
 **Version:** 2.1 alpha  
 -For additional version history and information, refer to the top of the .h file.  

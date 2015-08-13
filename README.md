@@ -1,5 +1,8 @@
 **FOR THE LATEST CODE, CHANGE THE "branch" DROPDOWN MENU ABOVE TO "Version_2", AND DOWNLOAD MY Version_2 CODE INSTEAD! ~GS 19 Feb. 2015**
 
+##License: GPLv3 or later (ignore whatever the files say; it is GPLv3)  
+-I'll correct the license in the files later.
+
 Readme last updated: 13 May 2014
 
 eRCaGuy_analogReadXXbit

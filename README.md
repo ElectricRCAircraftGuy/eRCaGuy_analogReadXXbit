@@ -1,3 +1,5 @@
+#THIS LIBRARY IS IN THE PROCESS OF BEING UPGRADED. IT MAY NOT CURRENTLY BE IN A WORKING CONDITION, THOUGH THE [ONE ON GUMROAD HERE](https://gumroad.com/l/eRCaGuy_NewAnalogRead) IS.
+
 eRCaGuy_NewAnalogRead Readme  
 Readme Written: 13 May 2014  
 Readme Updated: 15 Feb 2015  

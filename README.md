@@ -1,3 +1,5 @@
+#THIS LIBRARY IS IN THE PROCESS OF BEING UPGRADED. IT MAY NOT CURRENTLY BE IN A WORKING CONDITION, THOUGH THE [ONE ON GUMROAD HERE](https://gumroad.com/l/eRCaGuy_NewAnalogRead) IS.
+
 **FOR THE LATEST CODE, CHANGE THE "branch" DROPDOWN MENU ABOVE TO "Version_2", AND DOWNLOAD MY Version_2 CODE INSTEAD! ~GS 19 Feb. 2015**
 
 ##License: GPLv3 or later (ignore whatever the files say; it is GPLv3)  
